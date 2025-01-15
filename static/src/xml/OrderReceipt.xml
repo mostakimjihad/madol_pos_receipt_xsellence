@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+     <t t-name="madol_pos_receipt_xsellence.OrderReceipt" t-inherit="point_of_sale.OrderReceipt"
+        t-inherit-mode="extension">
+
+        <xpath expr="//div[hasclass('pos-receipt')]" position="replace">
+
+            <!-- pos-receipt -->
+            <div class="pos-receipt">
+            
+
+                <div class="con_vx_logo">
+                  <img t-attf-src="/web/image?model=res.company&amp;id={{props.data.headerData.company.id}}&amp;field=logo"
+                       alt="Logo" class="vx_logo pos-receipt-logo2"/>
+                </div>
+                <div>
+                  <div class="address">
+                      <t t-if="props.data.headerData.header" t-esc="props.data.headerData.header"/>
+                  </div>
+                </div>
+                <div>
+                    <t t-if="props.data.headerData.company.phone">
+                        <div class="text-center py-1">Phone:
+                            <t t-esc="props.data.headerData.company.phone"/>
+                        </div>
+                    </t>
+                </div>
+                <div>
+                  <div>BIN No: <span t-if="props.data.headerData.company.vat"
+                                     t-esc="props.data.headerData.company.vat"></span>
+                  </div>
+                    <div>Receipt Number: <span t-if="props.data.headerData.trackingNumber"
+                                     t-esc="props.data.headerData.trackingNumber"></span>
+                  </div>
+
+                    <div t-if="props.data.name" t-esc="props.data.name"></div>
+
+                    <div>Customer Name: <span t-if="props.data.headerData.partner"
+                                              t-esc="props.data.headerData.partner.name"></span></div>
+
+                    <div>Customer Mobile: <span t-if="props.data.headerData.partner"
+                                                t-esc="props.data.headerData.partner.mobile"></span></div>
+
+                    <div>Date: <span t-if="props.data.date" t-esc="props.data.date"></span></div>
+
+
+
+                </div>
+
+                <!-- Order Lines -->
+                <div class="order_lines mt-3">
+                  <table class="tbl_line">
+
+                    <tr>
+                        <th>SL</th>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th class="px-3">Rate</th>
+                        <th>Amount</th>
+                    </tr>
+
+                      <t t-set="line_index" t-value="1"/>
+                      <t t-foreach="props.data.orderlines" t-as="line" t-key="line.id">
+                          <tr>
+                              <td>
+                                  <t t-esc="line_index + 1"/>
+                              </td>
+                              <td>
+                                  <t t-esc="line.productName"/>
+                              </td>
+                              <td>
+                                  <t t-esc="line.qty"/>
+                              </td>
+                              <td class="px-3">
+                                  <t t-esc="line.unitPrice"/>
+                              </td>
+                              <td class="vx-text-right">
+                                  <t t-esc="line.price"/>
+                              </td>
+                          </tr>
+                          <t t-set="line_index" t-value="line_index + 1"/>
+                      </t>
+
+
+                  </table>
+                </div>
+
+                <div class="order_tbl">
+                  <table>
+                    <tr>
+                      <th>Subtotal</th>
+                        <th class="vx-text-right">
+                            <t t-esc="props.data.amount_total"/>
+                        </th>
+                    </tr>
+
+                      <tr>
+                      <td>(+)Vat on  <t t-esc="props.data.headerData.ref"/></td>
+                          <td class="vx-text-right">
+                              <t t-esc="props.data.amount_tax"/>
+                          </td>
+                    </tr>
+
+                      <tr>
+                      <td>(-)Discount</td>
+                          <td class="vx-text-right">
+                              <t t-esc="props.data.total_discount"/>
+                          </td>
+                    </tr>
+
+                      <tr>
+                      <td>Net Payable</td>
+                          <td class="vx-text-right">
+                              <t t-esc="props.data.amount_total"/>
+                          </td>
+                    </tr>
+
+                      <tr class="vx_border_bottom">
+                      <td class="font-weight-bold">Paid</td>
+                          <td class="vx-text-right font-weight-bold">
+                              <t t-esc="props.data.total_paid"/>
+                          </td>
+                    </tr>
+
+                      <tr>
+                      <td>Change</td>
+                          <td class="vx-text-right">
+                              <t t-esc="props.data.change"/>
+                          </td>
+                    </tr>
+
+                      <tr>
+                      <td style="padding-top: 7px;">Payment Mood</td>
+                          <td></td>
+                    </tr>
+
+                      <t t-foreach="props.data.paymentlines" t-as="line" t-key="id">
+                          <tr>
+                              <td t-esc="line.name"></td>
+                              <td class="vx-text-right" t-esc="line.amount"></td>
+                          </tr>
+                      </t>
+
+                      <tr>
+                      <td style="padding-top: 7px;">Sales Person</td>
+                          <td>
+                              <t t-esc="props.data.cashier"/>
+                          </td>
+                    </tr>
+
+                  </table>
+                </div>
+
+                <div class="address">
+                      <t t-if="props.data.headerData.footer" t-esc="props.data.headerData.footer"/>
+                  </div>
+
+
+                <div class="mt-1 text-center">
+                  <span class="border">Developed By: Xsellence Bangladesh Ltd</span>
+
+                </div>
+
+                <style>
+                .vx-text-right {
+                    text-align: right;
+                }
+                .pos-receipt {
+                    font-size: 12px;
+                }
+
+                .con_vx_logo {
+                    text-align: center;
+                }
+
+                .vx_logo {
+                    width: 145px;
+                }
+
+                .address {
+                    padding-top: 5px;
+                    font-size: 12px;
+                    text-align: center;
+                    line-height: 15px;
+                }
+
+                .order_lines .tbl_line {
+                    border-top: 1px solid rgb(0, 0, 0);
+                    width: 100%;
+                }
+
+                .order_lines .tbl_line tr {
+                    border-bottom: 1px solid rgb(0, 0, 0);
+                }
+
+                .order_tbl table {
+                    width: 100%;
+                }
+
+                .vx_border_bottom {
+                    border-bottom: 1px solid black;
+                }
+
+                @media print {
+                  .pos-receipt
+                 {
+                    width: 300px;
+                  }
+                }
+            </style>
+
+            </div>
+            <!-- End pos-receipt -->
+
+        </xpath>
+    </t>
+</templates>

@@ -60,28 +60,28 @@
                     </tr>
 
                       <t t-set="line_index" t-value="1"/>
-                      <t t-foreach="props.data.orderlines" t-as="line" t-key="line.id">
+                      <t t-set="total" t-value="0"/>
+                      <t t-foreach="props.data.headerData.orderlines_price_and_name" t-as="line" t-key="line.id">
                           <tr>
                               <td>
                                   <t t-esc="line_index + 1"/>
                               </td>
                               <td>
-                                  <t t-esc="line.productName"/>
+                                  <t t-esc="line.product_name"/>
                               </td>
                               <td>
-                                  <t t-esc="line.qty"/>
+                                  <t t-esc="line.quantity"/>
                               </td>
                               <td class="px-3">
-                                  <t t-esc="line.unitPrice"/>
+                                  <t t-esc="line.price"/>
                               </td>
                               <td class="vx-text-right">
-                                  <t t-esc="line.price"/>
+                                  <t t-esc="line.quantity * line.price"/>
+                                  <t t-set="total" t-value="total + (line.quantity * line.price)"/>
                               </td>
                           </tr>
                           <t t-set="line_index" t-value="line_index + 1"/>
                       </t>
-
-
                   </table>
                 </div>
 
@@ -90,7 +90,7 @@
                     <tr>
                       <th>Subtotal</th>
                         <th class="vx-text-right">
-                            <t t-esc="props.data.amount_total"/>
+                            <t t-esc="total"/>
                         </th>
                     </tr>
 

@@ -85,8 +85,6 @@
                   </table>
                 </div>
 
-                <t t-log="props"/>
-
                 <div class="order_tbl">
                   <table>
                     <tr>

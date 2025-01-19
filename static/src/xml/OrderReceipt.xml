@@ -85,12 +85,14 @@
                   </table>
                 </div>
 
+                <t t-log="props"/>
+
                 <div class="order_tbl">
                   <table>
                     <tr>
                       <th>Subtotal</th>
                         <th class="vx-text-right">
-                            <t t-esc="total"/>
+                            <span t-esc="total"/>
                         </th>
                     </tr>
 
@@ -111,7 +113,7 @@
                       <tr>
                       <td>Net Payable</td>
                           <td class="vx-text-right">
-                              <t t-esc="props.data.amount_total"/>
+                                <t t-esc="props.data.amount_total"/>
                           </td>
                     </tr>
 

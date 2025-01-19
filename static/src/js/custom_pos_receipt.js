@@ -16,9 +16,13 @@ patch(PosStore.prototype, {
 
        for (const orderline of this.selectedOrder.orderlines) {
             if (orderline.product.taxes_id && orderline.product.taxes_id.length > 0) {
-                ref += orderline.full_product_name + ",";
+                for (const tax_id of orderline.product.taxes_id) {
+                    console.log(tax_id)
+                    ref += orderline.full_product_name + " " + this.taxes_by_id[tax_id].name + ",";
+                }
             }
         }
+    
 
        return {
            ...super.getReceiptHeaderData(...arguments),
